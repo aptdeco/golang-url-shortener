@@ -8,7 +8,6 @@ import 'toastr/build/toastr.css';
 
 import About from './About/About'
 import Home from './Home/Home'
-import ShareX from './ShareX/ShareX'
 import Lookup from './Lookup/Lookup'
 import Recent from './Recent/Recent'
 import Visitors from './Visitors/Visitors'
@@ -160,9 +159,6 @@ export default class BaseComponent extends Component {
                         <Menu.Item name='shorten' active={activeItem === 'shorten'} onClick={this.handleItemClick} as={Link} to="/">
                             Shorten
                         </Menu.Item>
-                        <Menu.Item name='ShareX' active={activeItem === 'ShareX'} onClick={this.handleItemClick} as={Link} to="/sharex">
-                            ShareX
-                        </Menu.Item>
                         <Menu.Item name='recent' active={activeItem === 'recent'} onClick={this.handleItemClick} as={Link} to="/recent">
                             Recent URLs
                         </Menu.Item>
@@ -183,7 +179,6 @@ export default class BaseComponent extends Component {
                     </Menu>
                     <Route exact path="/" component={Home} />
                     <Route path="/about" render={() => <About info={info} />} />
-                    <Route path="/ShareX" component={ShareX} />
                     <Route path="/Lookup" component={Lookup} />
                     <Route path="/recent" component={Recent} />
                     <Route path="/visitors/:id" component={Visitors} />

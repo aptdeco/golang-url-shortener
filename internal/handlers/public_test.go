@@ -11,8 +11,8 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mxschmitt/golang-url-shortener/internal/stores"
-	"github.com/mxschmitt/golang-url-shortener/internal/stores/shared"
+	"github.com/aptdeco/golang-url-shortener/internal/stores"
+	"github.com/aptdeco/golang-url-shortener/internal/stores/shared"
 )
 
 const testURL = "https://www.google.de/"
@@ -177,7 +177,7 @@ func TestHandleInfo(t *testing.T) {
 			t.Fatalf("could not read the body: %v", err)
 		}
 		raw := makeJSON(t, gin.H{
-			"error": "Key: '.ID' Error:Field validation for 'ID' failed on the 'required' tag",
+			"error": "Key: 'ID' Error:Field validation for 'ID' failed on the 'required' tag",
 		})
 		if string(body) != raw {
 			t.Fatalf("body is not the expected one: %s", body)
