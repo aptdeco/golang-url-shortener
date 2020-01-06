@@ -11,11 +11,11 @@ import (
 	"time"
 	"unicode"
 
-	"github.com/asaskevich/govalidator"
 	"github.com/aptdeco/golang-url-shortener/internal/stores/boltdb"
 	"github.com/aptdeco/golang-url-shortener/internal/stores/redis"
 	"github.com/aptdeco/golang-url-shortener/internal/stores/shared"
 	"github.com/aptdeco/golang-url-shortener/internal/util"
+	"github.com/asaskevich/govalidator"
 	"github.com/pborman/uuid"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
