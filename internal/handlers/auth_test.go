@@ -9,11 +9,11 @@ import (
 	"testing"
 	"time"
 
-	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
 	"github.com/aptdeco/golang-url-shortener/internal/handlers/auth"
 	"github.com/aptdeco/golang-url-shortener/internal/stores"
 	"github.com/aptdeco/golang-url-shortener/internal/util"
+	jwt "github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 )
 
@@ -25,10 +25,10 @@ var (
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Hour * 24 * 365).Unix(),
 		},
-		"google",
-		"id",
-		"name",
-		"picture",
+		"proxy",
+		"anonymous",
+		"anonymous",
+		"/images/proxy_user.png",
 	}
 	tokenString string
 )
@@ -63,32 +63,6 @@ func TestCreateNewJWT(t *testing.T) {
 	tokenString, err = token.SignedString(secret)
 	if err != nil {
 		t.Fatalf("could not sign token: %v", err)
-	}
-}
-
-func TestForbiddenReqest(t *testing.T) {
-	resp, err := http.Post(server.URL+"/api/v1/protected/create", "application/json", nil)
-	if err != nil {
-		t.Fatalf("could not execute get request: %v", err)
-	}
-	if resp.StatusCode != http.StatusForbidden {
-		t.Fatalf("incorrect status code: %d; got: %d", resp.StatusCode, http.StatusForbidden)
-	}
-}
-
-func TestInvalidToken(t *testing.T) {
-	req, err := http.NewRequest("POST", server.URL+"/api/v1/protected/create", nil)
-	if err != nil {
-		t.Fatalf("could not create request %v", err)
-	}
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "incorrect one")
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		t.Fatalf("could not execute post request: %v", err)
-	}
-	if resp.StatusCode != http.StatusForbidden {
-		t.Fatalf("incorrect status code: %d; got: %d", resp.StatusCode, http.StatusForbidden)
 	}
 }
 

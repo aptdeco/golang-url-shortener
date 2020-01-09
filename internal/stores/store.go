@@ -19,7 +19,6 @@ import (
 	"github.com/pborman/uuid"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
-	"golang.org/x/crypto/bcrypt"
 )
 
 // Store holds internal funcs and vars about the store
@@ -87,17 +86,10 @@ func (s *Store) GetEntryAndIncrease(id string) (*shared.Entry, error) {
 }
 
 // CreateEntry creates a new record and returns his short id
-func (s *Store) CreateEntry(entry shared.Entry, givenID, password string) (string, []byte, error) {
+func (s *Store) CreateEntry(entry shared.Entry, givenID string) (string, []byte, error) {
 	entry.Public.URL = strings.Replace(entry.Public.URL, " ", "%20", -1)
 	if !govalidator.IsURL(entry.Public.URL) {
 		return "", nil, ErrNoValidURL
-	}
-	if password != "" {
-		var err error
-		entry.Password, err = bcrypt.GenerateFromPassword([]byte(password), 10)
-		if err != nil {
-			return "", nil, errors.Wrap(err, "could not generate bcrypt from password")
-		}
 	}
 	// try it 10 times to make a short URL
 	for i := 1; i <= 10; i++ {

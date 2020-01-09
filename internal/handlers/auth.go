@@ -16,40 +16,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (h *Handler) initOAuth() {
-	switch backend := util.GetConfig().Backend; backend {
-	// use redis as the session store if it is configured
-	case "redis":
-		store, _ := redis.NewStoreWithDB(10, "tcp", util.GetConfig().Redis.Host, util.GetConfig().Redis.Password, util.GetConfig().Redis.SessionDB, util.GetPrivateKey())
-		h.engine.Use(sessions.Sessions("backend", store))
-	default:
-		h.engine.Use(sessions.Sessions("backend", cookie.NewStore(util.GetPrivateKey())))
-	}
-	h.providers = []string{}
-	google := util.GetConfig().Google
-	if google.Enabled() {
-		auth.WithAdapterWrapper(auth.NewGoogleAdapter(google.ClientID, google.ClientSecret), h.engine.Group("/api/v1/auth/google"))
-		h.providers = append(h.providers, "google")
-	}
-	github := util.GetConfig().GitHub
-	if github.Enabled() {
-		auth.WithAdapterWrapper(auth.NewGithubAdapter(github.ClientID, github.ClientSecret, github.EndpointURL), h.engine.Group("/api/v1/auth/github"))
-		h.providers = append(h.providers, "github")
-	}
-	microsoft := util.GetConfig().Microsoft
-	if microsoft.Enabled() {
-		auth.WithAdapterWrapper(auth.NewMicrosoftAdapter(microsoft.ClientID, microsoft.ClientSecret), h.engine.Group("/api/v1/auth/microsoft"))
-		h.providers = append(h.providers, "microsoft")
-	}
-	okta := util.GetConfig().Okta
-	if okta.Enabled() {
-		auth.WithAdapterWrapper(auth.NewOktaAdapter(okta.ClientID, okta.ClientSecret, okta.EndpointURL), h.engine.Group("/api/v1/auth/okta"))
-		h.providers = append(h.providers, "okta")
-	}
-
-	h.engine.POST("/api/v1/auth/check", h.handleAuthCheck)
-}
-
 // initProxyAuth intializes data structures for proxy authentication mode
 func (h *Handler) initProxyAuth() {
 	switch backend := util.GetConfig().Backend; backend {

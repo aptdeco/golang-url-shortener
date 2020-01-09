@@ -25,10 +25,6 @@ type Configuration struct {
 	EnableAccessLogs bool          `yaml:"EnableAccessLogs" env:"ENABLE_ACCESS_LOGS"`
 	EnableColorLogs  bool          `yaml:"EnableColorLogs" env:"ENABLE_COLOR_LOGS"`
 	ShortedIDLength  int           `yaml:"ShortedIDLength" env:"SHORTED_ID_LENGTH"`
-	Google           oAuthConf     `yaml:"Google" env:"GOOGLE"`
-	GitHub           oAuthConf     `yaml:"GitHub" env:"GITHUB"`
-	Microsoft        oAuthConf     `yaml:"Microsoft" env:"MICROSOFT"`
-	Okta             oAuthConf     `yaml:"Okta" env:"OKTA"`
 	Proxy            proxyAuthConf `yaml:"Proxy" env:"PROXY"`
 	Redis            redisConf     `yaml:"Redis" env:"REDIS"`
 }
@@ -42,12 +38,6 @@ type redisConf struct {
 	WriteTimeout string `yaml:"WriteTimeout" env:"WRITE_TIMEOUT"`
 	SessionDB    string `yaml:"SessionDB" env:"SESSION_DB"`
 	SharedKey    string `yaml:"SharedKey" env:"SHARED_KEY"`
-}
-
-type oAuthConf struct {
-	ClientID     string `yaml:"ClientID" env:"CLIENT_ID"`
-	ClientSecret string `yaml:"ClientSecret" env:"CLIENT_SECRET"`
-	EndpointURL  string `yaml:"EndpointURL" env:"ENDPOINT_URL"` // Optional for GitHub, mandatory for Okta
 }
 
 type proxyAuthConf struct {
@@ -68,7 +58,7 @@ var Config = Configuration{
 	EnableColorLogs:  true,
 	UseSSL:           false,
 	ShortedIDLength:  4,
-	AuthBackend:      "oauth",
+	AuthBackend:      "proxy",
 	Redis: redisConf{
 		Host:         "127.0.0.1:6379",
 		MaxRetries:   3,
@@ -105,10 +95,6 @@ func ReadInConfig() error {
 		}
 	}
 	return nil
-}
-
-func (o oAuthConf) Enabled() bool {
-	return o.ClientSecret != ""
 }
 
 // GetConfig returns the configuration from the memory

@@ -23,7 +23,9 @@ export default class HomeComponent extends Component {
     }
   }
   handleURLChange = (e, { value }) => this.url = value
-  handlePasswordChange = (e, { value }) => this.password = value
+  handleUTMSourceChange = (e, { value }) => this.utmSource = value
+  handleUTMCampaignChange = (e, { value }) => this.utmCampaign = value
+  handleUTMMediumChange = (e, { value }) => this.utmMedium = value
   handleCustomExpirationChange = expire => this.setState({ expiration: expire })
   handleCustomIDChange = (e, { value }) => {
     this.setState({ customID: value })
@@ -44,7 +46,9 @@ export default class HomeComponent extends Component {
         URL: this.url,
         ID: this.state.usedSettings.includes("custom") ? this.state.customID : undefined,
         Expiration: this.state.usedSettings.includes("expire") && this.state.expiration ? this.state.expiration.toISOString() : undefined,
-        Password: this.state.usedSettings.includes("protected") && this.password ? this.password : undefined
+        Campaign: this.state.usedSettings.includes("campaign") && this.utmCampaign ? this.utmCampaign : undefined,
+        Source: this.state.usedSettings.includes("source") && this.utmSource ? this.utmSource : undefined,
+        Medium: this.state.usedSettings.includes("medium") && this.utmMedium ? this.utmMedium : undefined
       }, r => this.setState({
         links: [...this.state.links, {
           shortenedURL: this.state.displayURL + "/" + r.ID,
@@ -60,7 +64,9 @@ export default class HomeComponent extends Component {
     const options = [
       { text: 'Custom URL', value: 'custom' },
       { text: 'Expiration', value: 'expire' },
-      { text: 'Password', value: 'protected' }
+      { text: 'UTM Campaign', value: 'campaign' },
+      { text: 'UTM Source', value: 'source' },
+      { text: 'UTM Medium', value: 'medium' },
     ]
     const { links, usedSettings, showCustomIDError, expiration } = this.state
     return (
@@ -104,8 +110,12 @@ export default class HomeComponent extends Component {
                   customInput={<Input label="Expiration" />}
                   minDate={moment()} />
               </Form.Field>}
-              {usedSettings.includes("protected") && <Form.Field>
-                <Input type="password" label='Password' onChange={this.handlePasswordChange} /></Form.Field>}
+              {usedSettings.includes("campaign") && <Form.Field>
+                <Input label='UTM Campaign' onChange={this.handleUTMCampaignChange} /></Form.Field>}
+              {usedSettings.includes("source") && <Form.Field>
+                <Input label='UTM Source' onChange={this.handleUTMSourceChange} /></Form.Field>}
+              {usedSettings.includes("medium") && <Form.Field>
+                <Input label='UTM Medium' onChange={this.handleUTMMediumChange} /></Form.Field>}
             </Form.Group>
           </Form>
         </Segment>

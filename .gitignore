@@ -25,7 +25,6 @@ main
 /releases
 /docker_releases
 data
-*-packr.go
 /deployments/cloudfoundry
 !/deployments/cloudfoundry/README.md
 !/deployments/cloudfoundry/config.yaml

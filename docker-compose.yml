@@ -1,0 +1,9 @@
+golang_url_shortener:
+  build: .
+  ports:
+    - 8080:8080
+  volumes:
+    - ./data:/data
+  environment:
+    - GUS_BASE_URL=https://s.b0n.pl
+  restart: always

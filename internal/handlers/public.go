@@ -11,19 +11,18 @@ import (
 	"strings"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/aptdeco/golang-url-shortener/internal/handlers/auth"
 	"github.com/aptdeco/golang-url-shortener/internal/stores/shared"
 	"github.com/aptdeco/golang-url-shortener/internal/util"
-	"golang.org/x/crypto/bcrypt"
+	"github.com/gin-gonic/gin"
 )
 
 // requestHelper is used to help in- and outgoing requests for json
 // un- and marshalling
 type requestHelper struct {
-	URL                       string `binding:"required"`
-	ID, DeletionURL, Password string
-	Expiration                *time.Time
+	URL                                       string `binding:"required"`
+	ID, DeletionURL, Campaign, Source, Medium string
+	Expiration                                *time.Time
 }
 
 // handleLookup is the http handler for getting the infos
@@ -59,39 +58,28 @@ func (h *Handler) handleAccess(c *gin.Context) {
 		if strings.Contains(err.Error(), shared.ErrNoEntryFound.Error()) {
 			return
 		}
-		http.Error(c.Writer, fmt.Sprintf("could not get and crease visitor counter: %v, ", err), http.StatusInternalServerError)
+		http.Error(c.Writer, fmt.Sprintf("could not get and increase visitor counter: %v, ", err), http.StatusInternalServerError)
 		return
 	}
-	// No password set
-	if len(entry.Password) == 0 {
-		c.Redirect(http.StatusTemporaryRedirect, entry.Public.URL)
-		go h.registerVisitor(id, c)
-		c.Abort()
-	} else {
-		templateError := ""
-		if c.Request.Method == "POST" {
-			templateError = func() string {
-				pw, exists := c.GetPostForm("password")
-				if exists {
-					if err := bcrypt.CompareHashAndPassword(entry.Password, []byte(pw)); err != nil {
-						return fmt.Sprintf("could not validate password: %v", err)
-					}
-					return ""
-				}
-				return "No password set"
-			}()
-			if templateError == "" {
-				c.Redirect(http.StatusSeeOther, entry.Public.URL)
-				go h.registerVisitor(id, c)
-				c.Abort()
-				return
-			}
-		}
-		c.HTML(http.StatusOK, "protected.html", gin.H{
-			"ID":    id,
-			"Error": templateError,
-		})
+
+	q := url.Values{}
+	if len(entry.Public.Campaign) != 0 {
+		q.Add("utm_campaign", entry.Public.Campaign)
 	}
+	if len(entry.Public.Source) != 0 {
+		q.Add("utm_source", entry.Public.Source)
+	}
+	if len(entry.Public.Medium) != 0 {
+		q.Add("utm_medium", entry.Public.Medium)
+	}
+
+	if len(q.Encode()) == 0 {
+		c.Redirect(http.StatusTemporaryRedirect, entry.Public.URL)
+	} else {
+		c.Redirect(http.StatusTemporaryRedirect, entry.Public.URL+"?"+q.Encode())
+	}
+	go h.registerVisitor(id, c)
+	c.Abort()
 }
 
 // handleCreate handles requests to create an entry
@@ -105,12 +93,15 @@ func (h *Handler) handleCreate(c *gin.Context) {
 	id, delID, err := h.store.CreateEntry(shared.Entry{
 		Public: shared.EntryPublicData{
 			URL:        data.URL,
+			Campaign:   data.Campaign,
+			Source:     data.Source,
+			Medium:     data.Medium,
 			Expiration: data.Expiration,
 		},
 		RemoteAddr:    c.ClientIP(),
 		OAuthProvider: user.OAuthProvider,
 		OAuthID:       user.OAuthID,
-	}, data.ID, data.Password)
+	}, data.ID)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

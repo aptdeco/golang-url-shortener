@@ -23,7 +23,6 @@ type Entry struct {
 	OAuthProvider, OAuthID string
 	RemoteAddr             string `json:",omitempty"`
 	DeletionURL            string `json:",omitempty"`
-	Password               []byte `json:",omitempty"`
 	Public                 EntryPublicData
 }
 
@@ -33,6 +32,9 @@ type EntryPublicData struct {
 	LastVisit, Expiration *time.Time `json:",omitempty"`
 	VisitCount            int
 	URL                   string
+	Campaign              string `json:",omitempty"`
+	Source                string `json:",omitempty"`
+	Medium                string `json:",omitempty"`
 }
 
 // Visitor is the entry which is stored in the visitors bucket

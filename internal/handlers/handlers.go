@@ -9,10 +9,10 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/gin-gonic/gin"
-	"github.com/gobuffalo/packr/v2"
 	"github.com/aptdeco/golang-url-shortener/internal/stores"
 	"github.com/aptdeco/golang-url-shortener/internal/util"
+	"github.com/gin-gonic/gin"
+	"github.com/gobuffalo/packr/v2"
 	"github.com/pkg/errors"
 )
 
@@ -98,14 +98,7 @@ func New(store stores.Store) (*Handler, error) {
 	if err := h.setHandlers(); err != nil {
 		return nil, errors.Wrap(err, "could not set handlers")
 	}
-	if util.GetConfig().AuthBackend == "oauth" {
-		if !DoNotPrivateKeyChecking {
-			if err := util.CheckForPrivateKey(); err != nil {
-				return nil, errors.Wrap(err, "could not check for private key")
-			}
-		}
-		h.initOAuth()
-	} else if util.GetConfig().AuthBackend == "proxy" {
+	if util.GetConfig().AuthBackend == "proxy" {
 		h.initProxyAuth()
 	}
 	return h, nil
@@ -134,9 +127,6 @@ func (h *Handler) addTemplatesFromFS(files []string) error {
 }
 
 func (h *Handler) setHandlers() error {
-	if err := h.addTemplatesFromFS([]string{"token.html", "protected.html"}); err != nil {
-		return errors.Wrap(err, "could not add templates from FS")
-	}
 	// only do web access logs if enabled
 	if util.GetConfig().EnableAccessLogs {
 		if util.GetConfig().EnableDebugMode {

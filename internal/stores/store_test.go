@@ -13,7 +13,6 @@ import (
 
 var testData = struct {
 	ID            string
-	Password      string
 	oAuthProvider string
 	oAuthID       string
 	Entry         shared.Entry
@@ -21,7 +20,6 @@ var testData = struct {
 	DataDir       string
 }{
 	ID:            "such-a-great-id",
-	Password:      "sooo secret",
 	oAuthProvider: "google",
 	oAuthID:       "12345678",
 	Entry: shared.Entry{
@@ -75,7 +73,7 @@ func TestStore(t *testing.T) {
 	if err != nil {
 		t.Errorf("could not create store: %v", err)
 	}
-	entryID, deletionHmac, err := store.CreateEntry(testData.Entry, "", testData.Password)
+	entryID, deletionHmac, err := store.CreateEntry(testData.Entry, "")
 	if err != nil {
 		t.Errorf("could not create entry: %v", err)
 	}

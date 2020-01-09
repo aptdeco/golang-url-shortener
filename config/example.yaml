@@ -6,22 +6,8 @@ DataDir: ./data # Contains: the database and the private key
 EnableDebugMode: true # Activates more detailed logging
 EnableAccessLogs: true # Enable GIN access logs (default is true; set to false to disable access logging)
 EnableColorLogs: true # Enables/disables ANSI color sequences in log output; default is true
-ShortedIDLength: 10 # Length of the random generated ID which is used for new shortened URLs
+ShortedIDLength: 8 # Length of the random generated ID which is used for new shortened URLs
 AuthBackend: proxy # Can be 'oauth' or 'proxy'
-Google: # only relevant when using the oauth authbackend
-  ClientID: replace me
-  ClientSecret: "replace me"
-GitHub: # only relevant when using the oauth authbackend
-  ClientID: replace me
-  ClientSecret: "replace me"
-  EndpointURL: # (OPTIONAL) URL for custom endpoint (currently only for github); e.g. 'https://github.mydomain.com'
-Microsoft: # only relevant when using the oauth authbackend
-  ClientID: replace me
-  ClientSecret: "replace me"
-Okta: # only relevant when using the oauth authbackend
-  ClientID: replace me
-  ClientSecret: "replace me"
-  EndpointURL: # (MANDATORY) Issuer URL from the OAuth API => Authorization Servers in Okta
 Proxy: # only relevant when using the proxy authbackend
   RequireUserHeader: false # If true, will reject connections that do not have the UserHeader set
   UserHeader: "X-Goog-Authenticated-User-ID" # pull the unique user ID from this header
