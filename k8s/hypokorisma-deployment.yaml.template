@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hypokorisma
+  labels:
+    app: hypokorisma
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hypokorisma
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 34%
+      maxUnavailable: 34%
+  template:
+    metadata:
+      labels:
+        app: hypokorisma
+    spec:
+      containers:
+      - name: hypokorisma
+        image: DOCKER_IMAGE_NAME
+        envFrom:
+          - secretRef:
+              name: hypokorisma-secrets
+          - configMapRef:
+              name: cluster-configmap
+          - secretRef:
+              name: cluster-secrets
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 300m
+            memory: 300Mi
+        securityContext:
+          privileged: false
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

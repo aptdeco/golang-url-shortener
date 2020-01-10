@@ -19,14 +19,7 @@ main
 
 *.db
 *.lock
-/config.*
-/internal/handlers/static.go
-/internal/handlers/tmpls/tmpls.go
-/releases
-/docker_releases
-data
-/deployments/cloudfoundry
-!/deployments/cloudfoundry/README.md
-!/deployments/cloudfoundry/config.yaml
-!/deployments/cloudfoundry/manifest-example.yml
-!/deployments/cloudfoundry/run.sh
+config.*
+releases/
+data/
+cmd/golang-url-shortener/packrd

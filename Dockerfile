@@ -2,13 +2,11 @@ FROM golang:1.12-buster as builder
 ENV GO111MODULE=on
 WORKDIR /go/src/github.com/aptdeco/golang-url-shortener/
 COPY . .
+
 RUN go mod tidy
-
 RUN apt update && apt install -y nodejs npm
-
 RUN npm install -g yarn
-
-RUN make
+RUN make build
 
 # upx stuff
 FROM gruebel/upx:latest as upx
