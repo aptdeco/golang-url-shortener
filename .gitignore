@@ -22,4 +22,4 @@ main
 config.*
 releases/
 data/
-cmd/golang-url-shortener/packrd
+cmd/golang-url-shortener/packrd/
