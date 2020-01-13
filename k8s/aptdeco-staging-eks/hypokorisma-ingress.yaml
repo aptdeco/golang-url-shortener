@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: hypokorisma-ingress
+  name: hypokorisma-ingress-priv
   namespace: default
   annotations:
     kubernetes.io/ingress.class: nginx-priv
@@ -19,7 +19,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: hypokorisma-ingress
+  name: hypokorisma-ingress-pub
   namespace: default
   annotations:
     kubernetes.io/ingress.class: nginx-pub
