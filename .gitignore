@@ -18,7 +18,6 @@ debug.test
 main
 
 *.db
-*.lock
 releases/
 data/
 cmd/hypokorisma/packrd/
