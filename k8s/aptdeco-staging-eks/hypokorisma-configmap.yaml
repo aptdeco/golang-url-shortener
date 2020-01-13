@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hypokorisma-configmap
+data:
+  GUS_BASE_URL: https://beta.aptde.co
+  GUS_BACKEND: redis
+  GUS_REDIS_HOST: redis:6379

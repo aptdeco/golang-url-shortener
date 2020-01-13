@@ -1,5 +1,3 @@
-![Hypokorisma](https://repository-images.githubusercontent.com/185875759/e80e4380-86f1-11e9-801e-c6f4f96b0e67)
-
 # Hypokorisma [![CircleCI](https://circleci.com/gh/aptdeco/hypokorisma/tree/master.svg?style=svg&circle-token=5efdcce6e51f019adf43caeaf11169d61fbde4b3)](https://circleci.com/gh/aptdeco/hypokorisma/tree/master)
 
 > ### ὑποκόρισμα

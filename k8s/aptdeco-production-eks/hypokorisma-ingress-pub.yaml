@@ -4,10 +4,12 @@ metadata:
   name: hypokorisma-ingress
   namespace: default
   annotations:
-    kubernetes.io/ingress.class: nginx-priv
+    kubernetes.io/ingress.class: nginx-pub
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   rules:
-    - host: hypokorisma-beta.aptde.co
+    - host: aptde.co
       http:
         paths:
           - backend:

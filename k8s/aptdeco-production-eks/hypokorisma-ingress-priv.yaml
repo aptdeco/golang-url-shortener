@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hypokorisma-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.class: nginx-priv
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  rules:
+    - host: aptde.co
+      http:
+        paths:
+          - backend:
+              serviceName: hypokorisma
+              servicePort: http
+            path: /api/*
+          - backend:
+              serviceName: hypokorisma
+              servicePort: http
+            path: /d/*
+          - backend:
+              serviceName: hypokorisma
+              servicePort: http
+            path: /

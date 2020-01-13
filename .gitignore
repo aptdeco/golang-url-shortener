@@ -19,7 +19,6 @@ main
 
 *.db
 *.lock
-config.*
 releases/
 data/
 cmd/golang-url-shortener/packrd/

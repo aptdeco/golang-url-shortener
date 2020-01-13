@@ -1,0 +1,143 @@
+version: 2.1
+
+orbs:
+  aws-eks: circleci/aws-eks@0.1.0
+  aws-ecr: circleci/aws-ecr@3.1.0
+  kubernetes: circleci/kubernetes@0.3.0
+
+jobs:
+  test:
+    docker:
+      - image: circleci/golang:1.12
+    steps:
+      - checkout
+      - run:
+          name: Run tests
+          command: |
+            mkdir -p junit coverage
+            go get -u github.com/jstemmer/go-junit-report
+            go test ./... -v -coverprofile=coverage/coverage.out 2>&1 | go-junit-report > junit/report.xml
+            go tool cover -html=coverage/coverage.out -o coverage/coverage.html
+      - store_artifacts:
+          path: junit
+          destination: tests
+      - store_artifacts:
+          path: coverage
+          destination: coverage
+      - store_test_results:
+          path: junit
+
+  deploy-application:
+    executor: aws-eks/python3
+    parameters:
+      cluster-name:
+        description: |
+          Name of the EKS cluster
+        type: string
+      docker-image-name:
+        description: |
+          Name of the docker image to be deployed
+        type: string
+      aws-region:
+        description: |
+          AWS region
+        type: string
+        default: ""
+    steps:
+      - checkout
+      - run:
+          name: Create deployment manifest
+          command: |
+            # Replace the placeholders in the manifest with the intended values.
+            # This is to avoid hardcoding the image name in the manifest, to make this
+            # demo project more portable.
+            BUILD_DATE=$(date '+%Y%m%d%H%M%S')
+            cat k8s/hypokorisma-deployment.yaml.template |\
+              sed "s|DOCKER_IMAGE_NAME|<< parameters.docker-image-name >>|g" > k8s/hypokorisma-deployment.yaml
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: << parameters.cluster-name >>
+          install-kubectl: true
+          aws-region: << parameters.aws-region >>
+      - kubernetes/create-or-update-resource:
+          resource-file-path: "k8s/<< parameters.cluster-name >>/hypokorisma-configmap.yaml"
+      - kubernetes/create-or-update-resource:
+          resource-file-path: "k8s/hypokorisma-deployment.yaml"
+          get-rollout-status: true
+          resource-name: deployment/hypokorisma
+      - kubernetes/create-or-update-resource:
+          resource-file-path: "k8s/hypokorisma-service.yaml"
+      - kubernetes/create-or-update-resource:
+          resource-file-path: "k8s/<< parameters.cluster-name >>/hypokorisma-ingress-priv.yaml"
+      - kubernetes/create-or-update-resource:
+          resource-file-path: "k8s/<< parameters.cluster-name >>/hypokorisma-ingress-pub.yaml"
+
+workflows:
+  build_and_test:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore:
+                - master
+                - release
+
+  deploy:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only: master
+            tags:
+              only: /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
+      - aws-ecr/build_and_push_image:
+          context: org-global
+          name: build-and-push-image-sha
+          account-url: AWS_ECR_URL
+          region: AWS_DEFAULT_REGION
+          repo: hypokorisma
+          dockerfile: ~/project/Dockerfile
+          path: ~/project
+          tag: ${CIRCLE_SHA1}
+          filters:
+            branches:
+              only: master
+      - aws-ecr/build_and_push_image:
+          context: org-global
+          name: build-and-push-image-tag
+          account-url: AWS_ECR_URL
+          region: AWS_DEFAULT_REGION
+          repo: hypokorisma
+          dockerfile: ~/project/Dockerfile
+          path: ~/project
+          tag: ${CIRCLE_TAG}
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
+      - deploy-application:
+          context: org-global
+          name: deploy-staging
+          cluster-name: aptdeco-staging-eks
+          aws-region: $AWS_DEFAULT_REGION
+          docker-image-name: "${AWS_ECR_URL}/hypokorisma:${CIRCLE_SHA1}"
+          requires:
+            - test
+            - build-and-push-image-sha
+          filters:
+            branches:
+              only: master
+      - deploy-application:
+          context: org-global
+          name: deploy-production
+          cluster-name: aptdeco-production-eks
+          aws-region: $AWS_DEFAULT_REGION
+          docker-image-name: "${AWS_ECR_URL}/hypokorisma:${CIRCLE_TAG}"
+          requires:
+            - test
+            - build-and-push-image-tag
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v(\d+\.)?(\d+\.)?(\*|\d+)$/
