@@ -10,7 +10,7 @@ RUN make build
 
 # upx stuff
 FROM gruebel/upx:latest as upx
-COPY --from=builder releases/hypokorisma_linux_amd64/hypokorisma /hypokorisma.org
+COPY --from=builder /go/src/github.com/aptdeco/hypokorisma/releases/hypokorisma_linux_amd64/hypokorisma /hypokorisma.org
 RUN upx --best --lzma -o /hypokorisma /hypokorisma.org
 
 FROM debian:buster
