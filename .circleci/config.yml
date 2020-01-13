@@ -9,6 +9,10 @@ jobs:
   test:
     docker:
       - image: circleci/golang:1.12
+        environment:
+          GUS_BASE_URL: https://localhost:8080
+          GUS_BACKEND: redis
+          GUS_REDIS_HOST: redis:6379
       - image: redis:5.0
         name: redis
     steps:
