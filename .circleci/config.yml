@@ -71,9 +71,7 @@ jobs:
       - kubernetes/create-or-update-resource:
           resource-file-path: "k8s/hypokorisma-service.yaml"
       - kubernetes/create-or-update-resource:
-          resource-file-path: "k8s/<< parameters.cluster-name >>/hypokorisma-ingress-priv.yaml"
-      - kubernetes/create-or-update-resource:
-          resource-file-path: "k8s/<< parameters.cluster-name >>/hypokorisma-ingress-pub.yaml"
+          resource-file-path: "k8s/<< parameters.cluster-name >>/hypokorisma-ingress.yaml"
 
 workflows:
   build_and_test:
