@@ -23,8 +23,8 @@ spec:
       - name: hypokorisma
         image: DOCKER_IMAGE_NAME
         envFrom:
-          - secretRef:
-              name: hypokorisma-secrets
+          - configMapRef:
+              name: hypokorisma-configmap
           - configMapRef:
               name: cluster-configmap
           - secretRef:
