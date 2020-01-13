@@ -9,8 +9,8 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/aptdeco/golang-url-shortener/internal/stores"
-	"github.com/aptdeco/golang-url-shortener/internal/util"
+	"github.com/aptdeco/hypokorisma/internal/stores"
+	"github.com/aptdeco/hypokorisma/internal/util"
 	"github.com/gin-gonic/gin"
 	"github.com/gobuffalo/packr/v2"
 	"github.com/pkg/errors"

@@ -11,8 +11,8 @@ import (
 	"testing"
 
 	"github.com/gin-gonic/gin"
-	"github.com/aptdeco/golang-url-shortener/internal/stores"
-	"github.com/aptdeco/golang-url-shortener/internal/stores/shared"
+	"github.com/aptdeco/hypokorisma/internal/stores"
+	"github.com/aptdeco/hypokorisma/internal/stores/shared"
 )
 
 const testURL = "https://www.google.de/"

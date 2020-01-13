@@ -21,4 +21,4 @@ main
 *.lock
 releases/
 data/
-cmd/golang-url-shortener/packrd/
+cmd/hypokorisma/packrd/

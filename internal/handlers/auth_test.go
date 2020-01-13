@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/aptdeco/golang-url-shortener/internal/handlers/auth"
-	"github.com/aptdeco/golang-url-shortener/internal/stores"
-	"github.com/aptdeco/golang-url-shortener/internal/util"
+	"github.com/aptdeco/hypokorisma/internal/handlers/auth"
+	"github.com/aptdeco/hypokorisma/internal/stores"
+	"github.com/aptdeco/hypokorisma/internal/util"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"

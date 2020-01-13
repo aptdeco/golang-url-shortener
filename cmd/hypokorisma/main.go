@@ -4,9 +4,9 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/aptdeco/golang-url-shortener/internal/handlers"
-	"github.com/aptdeco/golang-url-shortener/internal/stores"
-	"github.com/aptdeco/golang-url-shortener/internal/util"
+	"github.com/aptdeco/hypokorisma/internal/handlers"
+	"github.com/aptdeco/hypokorisma/internal/stores"
+	"github.com/aptdeco/hypokorisma/internal/util"
 	"github.com/pkg/errors"
 	"github.com/shiena/ansicolor"
 	"github.com/sirupsen/logrus"

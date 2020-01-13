@@ -6,9 +6,9 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/aptdeco/golang-url-shortener/internal/stores/shared"
+	"github.com/aptdeco/hypokorisma/internal/stores/shared"
 
-	"github.com/aptdeco/golang-url-shortener/internal/util"
+	"github.com/aptdeco/hypokorisma/internal/util"
 )
 
 var testData = struct {

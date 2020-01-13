@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/aptdeco/golang-url-shortener/internal/util"
+	"github.com/aptdeco/hypokorisma/internal/util"
 )
 
 func TestInitShortener(t *testing.T) {

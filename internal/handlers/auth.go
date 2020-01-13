@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/aptdeco/golang-url-shortener/internal/handlers/auth"
-	"github.com/aptdeco/golang-url-shortener/internal/util"
+	"github.com/aptdeco/hypokorisma/internal/handlers/auth"
+	"github.com/aptdeco/hypokorisma/internal/util"
 	"github.com/sirupsen/logrus"
 
 	jwt "github.com/dgrijalva/jwt-go"

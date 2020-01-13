@@ -1,4 +1,4 @@
-module github.com/aptdeco/golang-url-shortener
+module github.com/aptdeco/hypokorisma
 
 go 1.13
 
@@ -10,7 +10,7 @@ require (
 	github.com/gin-gonic/gin v1.5.0
 	github.com/go-redis/redis v6.15.6+incompatible
 	github.com/gobuffalo/packr/v2 v2.7.1
-	github.com/mattn/goveralls v0.0.4 // indirect
+	github.com/mattn/goveralls v0.0.5 // indirect
 	github.com/mitchellh/gox v1.0.1 // indirect
 	github.com/mxschmitt/golang-env-struct v0.0.0-20181017075525-0c54aeca8397
 	github.com/onsi/ginkgo v1.11.0 // indirect

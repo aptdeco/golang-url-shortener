@@ -3,7 +3,7 @@ package auth
 import (
 	"time"
 
-	"github.com/aptdeco/golang-url-shortener/internal/util"
+	"github.com/aptdeco/hypokorisma/internal/util"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/pkg/errors"
 )

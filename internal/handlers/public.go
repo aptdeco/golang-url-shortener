@@ -11,9 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/aptdeco/golang-url-shortener/internal/handlers/auth"
-	"github.com/aptdeco/golang-url-shortener/internal/stores/shared"
-	"github.com/aptdeco/golang-url-shortener/internal/util"
+	"github.com/aptdeco/hypokorisma/internal/handlers/auth"
+	"github.com/aptdeco/hypokorisma/internal/stores/shared"
+	"github.com/aptdeco/hypokorisma/internal/util"
 	"github.com/gin-gonic/gin"
 )
 
