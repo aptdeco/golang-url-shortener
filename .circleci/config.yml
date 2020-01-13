@@ -12,6 +12,10 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Build application
+          command: |
+            make build
+      - run:
           name: Run tests
           command: |
             mkdir -p junit coverage
