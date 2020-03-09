@@ -9,7 +9,7 @@ require (
 	github.com/gin-contrib/sessions v0.0.3
 	github.com/gin-gonic/gin v1.5.0
 	github.com/go-redis/redis v6.15.7+incompatible
-	github.com/gobuffalo/packr/v2 v2.7.1
+	github.com/gobuffalo/packr/v2 v2.8.0
 	github.com/mattn/goveralls v0.0.5 // indirect
 	github.com/mitchellh/gox v1.0.1 // indirect
 	github.com/mxschmitt/golang-env-struct v0.0.0-20181017075525-0c54aeca8397
