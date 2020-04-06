@@ -18,7 +18,7 @@ require (
 	github.com/pborman/uuid v1.2.0
 	github.com/pkg/errors v0.9.1
 	github.com/shiena/ansicolor v0.0.0-20151119151921-a422bbe96644
-	github.com/sirupsen/logrus v1.4.2
+	github.com/sirupsen/logrus v1.5.0
 	golang.org/x/crypto v0.0.0-20191227163750-53104e6ec876
 	gopkg.in/yaml.v2 v2.2.8
 )
