@@ -22,8 +22,9 @@ metadata:
   name: hypokorisma-ingress-pub
   namespace: default
   annotations:
-    kubernetes.io/ingress.class: nginx-pub
+    kubernetes.io/ingress.class: aptde-co-pub
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
     - host: aptde.co
@@ -32,4 +33,4 @@ spec:
           - backend:
               serviceName: hypokorisma
               servicePort: http
-            path: /
+            path: /([A-Za-z0-9-]+)
