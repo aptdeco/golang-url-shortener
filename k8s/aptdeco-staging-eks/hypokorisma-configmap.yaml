@@ -5,4 +5,4 @@ metadata:
 data:
   GUS_BASE_URL: https://beta.aptde.co
   GUS_BACKEND: redis
-  GUS_REDIS_HOST: redis:6379
+  GUS_REDIS_HOST: redis-master:6379
